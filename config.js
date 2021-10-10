@@ -1,6 +1,6 @@
 
 const dotenv = require('dotenv');
-const nodemon = require('nodemon');
+
 dotenv.config();
 
 const validarVariableDeEntorno = (nombre) => {
