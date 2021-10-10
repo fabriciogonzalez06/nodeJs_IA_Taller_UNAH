@@ -25,7 +25,7 @@ class Dbhelper {
 
                 conexion.connect(error => {
                     if (error) {
-                        reject(`No se pudo conectar a la base de datos ${er}`);
+                        reject(`No se pudo conectar a la base de datos ${error}`);
                     }
                 });
                 conexion.query(nombreSp, parametros, (error, results, fields) => {
