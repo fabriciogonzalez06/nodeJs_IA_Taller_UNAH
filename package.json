@@ -18,8 +18,5 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1"
   },
-  "type": "commonjs",
-  "devDependencies": {
-    "nodemon": "^2.0.13"
-  }
+  "type": "commonjs"
 }
