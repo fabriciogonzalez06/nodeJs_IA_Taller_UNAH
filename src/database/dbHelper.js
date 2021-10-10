@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 
-const { CONFIG } = require('./../../config');
+const { CONFIG } = require('../../config');
 
 class Dbhelper {
 
