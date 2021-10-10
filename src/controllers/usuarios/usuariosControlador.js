@@ -12,14 +12,14 @@ const ingreso = async (req, res) => {
     const { correo, contrasena } = body;
 
     const dbHelper = new Dbhelper();
-    const respuesta = new RespuestaHttp();
+    const restHttp = new RespuestaHttp();
 
     try {
         await crearUsuarioSchema.validateAsync(body);
     } catch ({ message }) {
-        respuesta.existeError = true;
-        respuesta.mensaje = message;
-        return res.status(400).send(respuesta);
+        restHttp.existeError = true;
+        restHttp.mensaje = message;
+        return res.status(400).send(restHttp);
     }
 
 
@@ -28,17 +28,17 @@ const ingreso = async (req, res) => {
         const usuario = await dbHelper.query('select * from tbl_usuario where correo = ?', [correo]);
 
         if (usuario.length === 0) {
-            respuesta.existeError = true;
-            respuesta.mensaje = 'Usuario o contraseña incorrecta (usuarios)';
+            restHttp.existeError = true;
+            restHttp.mensaje = 'Usuario o contraseña incorrecta (correo)';
             return res.status(400).send(respuesta);
         }
 
         const contrasenaCorrecta = await compararContrasena(contrasena, usuario[0].contrasena);
 
         if (!contrasenaCorrecta) {
-            respuesta.existeError = true;
-            respuesta.mensaje = 'Usuario o contraseña incorrecta (contrasena)';
-            return res.status(400).send(respuesta);
+            restHttp.existeError = true;
+            restHttp.mensaje = 'Usuario o contraseña incorrecta (contrasena)';
+            return res.status(400).send(restHttp);
         }
 
         const payload = {
@@ -48,29 +48,29 @@ const ingreso = async (req, res) => {
 
         const token = generarToken(payload);
 
-        respuesta.respuesta = token;
-        return res.status(200).send(respuesta);
+        restHttp.respuesta = token;
+        return res.status(200).send(restHttp);
 
     } catch ({ mensaje }) {
-        respuesta.existeError = true;
-        respuesta.mensaje = message;
-        return res.status(400).send(respuesta);
+        restHttp.existeError = true;
+        restHttp.mensaje = message;
+        return res.status(400).send(restHttp);
     }
 }
 
 const obtenerUsuarios = async (req, res) => {
     const dbHelper = new Dbhelper();
-    const respuesta = new RespuestaHttp();
+    const restHttp = new RespuestaHttp();
     try {
 
-        const datos = await dbHelper.query('select * from tbl_usuario');
-        respuesta.respuesta = datos;
-        return res.status(200).send(respuesta);
+        const datos = await dbHelper.query('select id, correo, fechaRegistro from tbl_usuario');
+        restHttp.respuesta = datos;
+        return res.status(200).send(restHttp);
 
     } catch (message) {
-        respuesta.existeError = true;
-        respuesta.mensaje = message;
-        return res.status(400).send(respuesta);
+        restHttp.existeError = true;
+        restHttp.mensaje = message;
+        return res.status(400).send(restHttp);
     }
 }
 
@@ -78,25 +78,26 @@ const obtenerUsuario = async (req, res) => {
     const { params } = req;
     const { id } = params;
 
-    const respuesta = new RespuestaHttp();
     const dbHelper = new Dbhelper();
+    const resHttp = new RespuestaHttp();
 
     try {
 
-        const datos = await dbHelper.query('select id, correo from tbl_usuario where id = ?', [id]);
+        const datos = await dbHelper.query('select id, correo, fechaRegistro from tbl_usuario where id = ?', [id]);
 
         if (datos.length === 0) {
-            respuesta.existeError = true;
-            respuesta.mensaje = "No se encontro el usuario";
-            return res.status(400).send(respuesta);
+            resHttp.existeError = true;
+            resHttp.mensaje = "No se encontro el usuario";
+            return res.status(400).send(resHttp);
         }
-        respuesta.respuesta = datos;
-        return res.status(200).send(respuesta);
+        resHttp.respuesta = datos;
+        return res.status(200).send(resHttp);
 
     } catch (message) {
-        respuesta.existeError = true;
-        respuesta.mensaje = message;
-        return res.status(400).send(respuesta);
+        console.log(message)
+        resHttp.existeError = true;
+        resHttp.mensaje = message;
+        return res.status(400).send(resHttp);
     }
 }
 
@@ -105,44 +106,32 @@ const crearUsuario = async (req, res) => {
     const { body } = req;
 
     const dbHelper = new Dbhelper();
-    const respuesta = new RespuestaHttp();
+    const resHttp = new RespuestaHttp();
 
     try {
         await crearUsuarioSchema.validateAsync(body);
     } catch ({ message }) {
-        respuesta.existeError = true;
-        respuesta.mensaje = message;
-        return res.status(400).send(respuesta);
+        resHttp.existeError = true;
+        resHttp.mensaje = message;
+        return res.status(400).send(restHttp);
     }
 
     const { correo, contrasena } = body;
 
     try {
 
-        const exists = await dbHelper.query('select 1 from  tbl_usuario where correo = ?', [correo]);
-
-        if (exists.length > 0) {
-            respuesta.existeError = true;
-            respuesta.mensaje = 'Usuario ya existe';
-            return res.status(400).send(respuesta);
-        }
-
         const contrasenaEncryptada = await encryptarContrasena(contrasena);
 
-        const datos = await dbHelper.query('insert into tbl_usuario(correo, contrasena) values(?,?)', [correo, contrasenaEncryptada]);
+        const usuario = await dbHelper.sp('call sp_tbl_usuario_crear(?,?)', [correo, contrasenaEncryptada]);
 
-        const idInsertado = datos['insertId'];
+        resHttp.respuesta = usuario;
+        resHttp.mensaje = 'Usuario creado correctamente';
+        return res.status(200).send(resHttp);
 
-        const [usuario] = await dbHelper.query('select id, correo from tbl_usuario where id = ?', [idInsertado]);
-
-        respuesta.respuesta = usuario;
-        respuesta.mensaje = 'Usuario creado correctamente';
-        return res.status(200).send(respuesta);
-
-    } catch ({ message, ...rest }) {
-        respuesta.existeError = true;
-        respuesta.mensaje = message;
-        return res.status(400).send(respuesta);
+    } catch (error) {
+        resHttp.existeError = true;
+        resHttp.mensaje = error;
+        return res.status(400).send(resHttp);
     }
 }
 
@@ -152,26 +141,19 @@ const eliminarUsuario = async (req, res) => {
     const { params: { id } } = req;
 
     const dbHelper = new Dbhelper();
-    const respuesta = new RespuestaHttp();
+    const resHttp = new RespuestaHttp();
     try {
 
-        const exists = await dbHelper.query('select 1 from tbl_usuario where id = ?', [id]);
+        const respuesta = await dbHelper.sp('call sp_tbl_usuario_eliminar(?)', [id]);
 
-        if (exists.length === 0) {
-            respuesta.existeError = true;
-            respuesta.mensaje = 'No se encontró usuario a eliminar';
-            return res.status(400).send(respuesta);
-        }
+        resHttp.respuesta = respuesta;
+        resHttp.mensaje = "usuario eliminado correctamente";
+        return res.status(200).send(resHttp);
 
-        const datos = await dbHelper.query('delete from tbl_usuario where id = ?', [id]);
-        respuesta.respuesta = datos;
-        respuesta.mensaje = "usuario eliminado correctamente";
-        return res.status(200).send(respuesta);
-
-    } catch (message) {
-        respuesta.existeError = true;
-        respuesta.mensaje = message;
-        return res.status(400).send(respuesta);
+    } catch (error) {
+        resHttp.existeError = true;
+        resHttp.mensaje = error;
+        return res.status(400).send(resHttp);
     }
 }
 

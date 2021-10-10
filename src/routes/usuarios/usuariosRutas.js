@@ -6,7 +6,7 @@ const api = Router();
 
 api.get('/', validarToken, obtenerUsuarios);
 api.get('/:id', validarToken, obtenerUsuario);
-api.post('/', validarToken, crearUsuario);
+api.post('/', crearUsuario);
 api.delete('/:id', validarToken, eliminarUsuario);
 
 api.post('/ingreso', ingreso);

@@ -15,5 +15,5 @@ app.use('/api', rutas);
 
 
 app.listen(port, () => {
-    console.log(`corriento en el puerto ${port} en modo ${CONFIG.ENV}`)
+    console.log(`corriendo en el puerto ${port} en modo ${CONFIG.ENV}`)
 });
