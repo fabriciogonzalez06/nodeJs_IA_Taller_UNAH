@@ -21,8 +21,8 @@ const CONFIG = {
     PORT: validarVariableDeEntorno('PORT'),
     HOST: validarVariableDeEntorno('HOST'),
     USER: validarVariableDeEntorno('USER'),
-    PASSWORD:  process.env['ENV'] === 'development' ?  '' : validarVariableDeEntorno('PASSWORD'),
-    DATABASE: validarVariableDeEntorno('DATABASE'),
+    PASSWORD: validarVariableDeEntorno('PASSWORD'),
+    DATABASE: process.env['ENV'] === 'development' ? '' : validarVariableDeEntorno('DATABASE'),
     DB_PORT: validarVariableDeEntorno('DB_PORT'),
     LLAVE_PRIVADA_TOKEN: validarVariableDeEntorno('LLAVE_PRIVADA_TOKEN')
 }
