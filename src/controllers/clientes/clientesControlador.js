@@ -38,9 +38,9 @@ const obtenerCliente = async (req, res) => {
 
         return res.status(200).send(httpRes);
 
-    } catch (error) {
+    } catch ({ message }) {
         httpRes.existeError = true;
-        httpRes.mensaje = error;
+        httpRes.mensaje = message;
         return res.status(400).send(httpRes);
     }
 }
@@ -68,9 +68,9 @@ const crearCliente = async (req, res) => {
 
         return res.status(200).send(httpRes);
 
-    } catch (error) {
+    } catch ({ message }) {
         httpRes.existeError = true;
-        httpRes.mensaje = error;
+        httpRes.mensaje = message;
         return res.status(400).send(httpRes);
     }
 }
@@ -99,9 +99,9 @@ const actualizarCliente = async (req, res) => {
 
         return res.status(200).send(httpRes);
 
-    } catch (error) {
+    } catch ({ message }) {
         httpRes.existeError = true;
-        httpRes.mensaje = error;
+        httpRes.mensaje = message;
         return res.status(400).send(httpRes);
     }
 }
@@ -121,9 +121,9 @@ const eliminarCliente = async (req, res) => {
 
         return res.status(200).send(httpRes);
 
-    } catch (error) {
+    } catch ({ message }) {
         httpRes.existeError = true;
-        httpRes.mensaje = error;
+        httpRes.mensaje = message;
         return res.status(400).send(httpRes);
     }
 

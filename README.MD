@@ -105,11 +105,11 @@ Dependencias utilizadas en el proyecto y su caso de uso.
 | Dependencia | Descripción |  Link |
 | ------ | ------  | ------ |
 | ExpressJs | Enrutador para las API's | [expressJs](https://www.npmjs.com/package/express) |
-| Mysql | Driver para conectar a bases de datos Mysql y MariaDB | [jsonwebtoken](https://www.npmjs.com/package/mysql) |
+| Mysql | Driver para conectar a bases de datos Mysql y MariaDB | [mysql](https://www.npmjs.com/package/mysql) |
 | Bcrypt | Encriptar datos(Encriptar y desencriptar contraseña) | [bcrypt](https://www.npmjs.com/package/bcrypt) |
 | Dotenv | Cargar variables de entorno desde un archivo .env | [dotenv](https://www.npmjs.com/package/dotenv) |
 | Joi | Validador esquema de objetos | [joi](https://www.npmjs.com/package/joi) |
-| Dotenv | Cargar variables de entorno desde un archivo .env | [dotenv](https://www.npmjs.com/package/dotenv) |
+| Dotenv | Cargar variables de entorno desde un archivo .env | [dotenv](https://www.npmjs.com/package/joi) |
 | Jsonwebtoken | Generar y validar JWT | [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) |
 
 

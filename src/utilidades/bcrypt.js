@@ -1,10 +1,11 @@
 const bcrypt = require('bcrypt');
+const CustomError = require('../utilidades/error');
 
 const encryptarContrasena = async (contrasena) => {
     try {
         return await bcrypt.hash(contrasena, 10);
     } catch ({ message }) {
-        throw new Error(message);
+        throw new CustomError(message);
     }
 }
 

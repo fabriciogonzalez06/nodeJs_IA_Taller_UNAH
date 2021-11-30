@@ -51,9 +51,9 @@ const ingreso = async (req, res) => {
         resHttp.respuesta = token;
         return res.status(200).send(resHttp);
 
-    } catch (error) {
+    } catch ({ message }) {
         resHttp.existeError = true;
-        resHttp.mensaje = error;
+        resHttp.mensaje = message;
         return res.status(400).send(resHttp);
     }
 }
@@ -67,7 +67,7 @@ const obtenerUsuarios = async (req, res) => {
         resHttp.respuesta = datos;
         return res.status(200).send(resHttp);
 
-    } catch (message) {
+    } catch ({ message }) {
         resHttp.existeError = true;
         resHttp.mensaje = message;
         return res.status(400).send(resHttp);
@@ -93,8 +93,8 @@ const obtenerUsuario = async (req, res) => {
         resHttp.respuesta = datos;
         return res.status(200).send(resHttp);
 
-    } catch (message) {
-        console.log(message)
+    } catch ({ message }) {
+
         resHttp.existeError = true;
         resHttp.mensaje = message;
         return res.status(400).send(resHttp);
@@ -128,9 +128,9 @@ const crearUsuario = async (req, res) => {
         resHttp.mensaje = 'Usuario creado correctamente';
         return res.status(200).send(resHttp);
 
-    } catch (error) {
+    } catch ({ message }) {
         resHttp.existeError = true;
-        resHttp.mensaje = error;
+        resHttp.mensaje = message;
         return res.status(400).send(resHttp);
     }
 }
@@ -150,9 +150,9 @@ const eliminarUsuario = async (req, res) => {
         resHttp.mensaje = "usuario eliminado correctamente";
         return res.status(200).send(resHttp);
 
-    } catch (error) {
+    } catch ({ message }) {
         resHttp.existeError = true;
-        resHttp.mensaje = error;
+        resHttp.mensaje = message;
         return res.status(400).send(resHttp);
     }
 }
