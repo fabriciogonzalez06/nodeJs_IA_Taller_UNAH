@@ -25,7 +25,7 @@ class Dbhelper {
 
                 conexion.connect(error => {
                     if (error) {
-                        reject(`No se pudo conectar a la base de datos ${error}`);
+                        reject({ message: `No se pudo conectar a la base de datos ${error}` });
                     }
                 });
                 conexion.query(nombreSp, parametros, (error, results, fields) => {
@@ -34,13 +34,13 @@ class Dbhelper {
 
                         const { sqlMessage, sqlState } = error;
 
-                        if(sqlState === '60000' || sqlState === 6000){
-                            reject(`${sqlMessage}`);
-                        }else{
-                            reject(`No se pudo realizar la consulta, consulte a su administrador de sistemas. ${sqlMessage  }`);
+                        if (sqlState === '60000' || sqlState === 6000) {
+                            reject({ message: `${sqlMessage}` });
+                        } else {
+                            reject({ message: `No se pudo realizar la consulta, consulte a su administrador de sistemas. ${sqlMessage}` });
                         }
-                        
-                    }else{
+
+                    } else {
 
                         resolve(results[0]);
                     }
@@ -49,7 +49,7 @@ class Dbhelper {
 
 
             } catch ({ message }) {
-                reject(`Ocurrio un error interno ${message}`);
+                reject({ message: `Ocurrio un error interno ${message}` });
             }
         });
 
@@ -62,13 +62,13 @@ class Dbhelper {
 
                 conexion.connect(error => {
                     if (error) {
-                        reject(`No se pudo conectar a la base de datos ${error}`);
+                        reject({ message: `No se pudo conectar a la base de datos ${error}` });
                     }
                 });
                 conexion.query(consulta, parametros, (error, results, fields) => {
 
                     if (error) {
-                        reject(`No se pudo realizar la consulta ${error}`);
+                        reject({ message: `No se pudo realizar la consulta ${error}` });
                     }
                     resolve(results);
                 });
@@ -76,7 +76,7 @@ class Dbhelper {
 
 
             } catch ({ message }) {
-                reject(`Ocurrio un error interno ${message}`);
+                reject({ message: `Ocurrio un error interno ${message}` });
             }
         });
 

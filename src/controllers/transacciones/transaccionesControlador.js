@@ -23,9 +23,9 @@ const obtenerTransacciones = async (req, res) => {
         resHttp.respuesta = respuesta;
         return res.status(200).send(resHttp);
 
-    } catch (error) {
+    } catch ({ message }) {
         resHttp.existeError = true;
-        resHttp.mensaje = error;
+        resHttp.mensaje = message;
         return res.status(400).send(resHttp);
     }
 }
@@ -50,9 +50,9 @@ const crearTransaccion = async (req, res) => {
         resHttp.respuesta = respuesta;
         return res.status(200).send(resHttp);
 
-    } catch (error) {
+    } catch ({ message }) {
         resHttp.existeError = true;
-        resHttp.mensaje = error;
+        resHttp.mensaje = message;
         return res.status(400).send(resHttp);
     }
 }
@@ -79,9 +79,9 @@ const actualizarTransaccion = async (req, res) => {
         resHttp.respuesta = respuesta;
         return res.status(200).send(resHttp);
 
-    } catch (error) {
+    } catch ({ message }) {
         resHttp.existeError = true;
-        resHttp.mensaje = error;
+        resHttp.mensaje = message;
         return res.status(400).send(resHttp);
     }
 }
@@ -107,9 +107,9 @@ const eliminarTransaccion = async (req, res) => {
         resHttp.respuesta = respuesta;
         return res.status(200).send(resHttp);
 
-    } catch (error) {
+    } catch ({ message }) {
         resHttp.existeError = true;
-        resHttp.mensaje = error;
+        resHttp.mensaje = message;
         return res.status(400).send(resHttp);
     }
 }
